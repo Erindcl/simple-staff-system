@@ -4,6 +4,7 @@ const msg = '布局'
 
 <template>
   <div>{{ msg }}</div>
+  <router-view />
 </template>
 
 <style scoped>
