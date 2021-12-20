@@ -16,7 +16,7 @@ const rules = {
     { required: true, message: '请输入密码', trigger: 'blur' },
   ],
 }
-const formRef = ref();
+const formRef = ref()
 const router = useRouter()
 
 const handleLogin = () => {
@@ -33,7 +33,7 @@ const handleLogin = () => {
     }
   })
   .catch(error => {
-    console.log('error', error);
+    console.log('error', error)
   });
 }
 </script>
