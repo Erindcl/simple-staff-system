@@ -23,7 +23,7 @@ const handleLogin = () => {
   formRef.value.validate().then(() => {
     if (formValues.name === 'admin' && formValues.password === '123456') {
       message.success('登录成功')
-      localDb.set('userId', {
+      localDb.set('userInfo', {
         id: '001',
         name: 'admin',
       })

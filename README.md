@@ -1,15 +1,17 @@
-# Vue 3 + Vite
+# Vue 3 demo
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+基于 vue3 的 setup 语法糖实现的员工管理系统
 
-## Recommended IDE Setup
+## 技术
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+1. vue@3.2.x
+2. ant-design-vue@3.x
+3. vue-router@4.x
 
 ## to do list
 
 登陆页面
 布局（顶部、侧边导航栏）
 个人中心（个人基本数据）
-用户管理（列表、添加-分步骤添加包含基本信息教育信息家庭信息等、删除、编辑、查看）
+员工管理（列表、添加-分步骤添加包含基本信息教育信息家庭信息等、删除、编辑、查看）
 （mock 数据研究一波）
