@@ -7,5 +7,10 @@
   </div>
 </template>
 
-<style>
+<style scoped>
+.app-container {
+  min-width: 1200px;
+  height: 100vh;
+  overflow: auto;
+}
 </style>
