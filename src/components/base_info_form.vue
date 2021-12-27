@@ -1,35 +1,37 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue'
+import { Form } from 'ant-design-vue'
 
+const useForm = Form.useForm
 const formValues = reactive({
   name: undefined,
   no: undefined,
   job: undefined,
   level: undefined,
 })
-const rules = {
+const rules = reactive({
   name: [
-    { required: true, message: '必填项', trigger: 'blur' },
+    { required: true, message: '必填项' },
   ],
   no: [
-    { required: true, message: '必填项', trigger: 'blur' },
+    { required: true, message: '必填项' },
   ],
   job: [
-    { required: true, message: '必填项', trigger: 'blur' },
+    { required: true, message: '必填项' },
   ],
   level: [
-    { required: true, message: '必填项', trigger: 'blur' },
+    { required: true, message: '必填项' },
   ],
-}
+})
+const { resetFields, validate, validateInfos } = useForm(formValues, rules);
 const levelOptions = [
   { label: '高级', value: 1 },
   { label: '中级', value: 2 },
   { label: '低级', value: 3 },
 ]
-const formRef = ref()
 
 const init = (formData) => {
-  formRef.value.resetFields()
+  resetFields()
   formValues.name = formData.name
   formValues.no = formData.no
   formValues.job = formData.job
@@ -38,28 +40,25 @@ const init = (formData) => {
 
 defineExpose({
   init,
-  formRef,
+  validate,
   formValues
 })
 </script>
 <template>
   <a-form
-      :model="formValues"
-      :rules="rules"
-      ref="formRef"
       :label-col="{ span: 5 }"
       :wrapper-col="{ span: 16 }"
     >
-      <a-form-item name="name" label="姓名">
+      <a-form-item label="姓名" v-bind="validateInfos.name">
         <a-input v-model:value="formValues.name" placeholder="请输入姓名" />
       </a-form-item>
-      <a-form-item name="no" label="工号">
+      <a-form-item label="工号" v-bind="validateInfos.no">
         <a-input v-model:value="formValues.no" placeholder="请输入工号" />
       </a-form-item>
-      <a-form-item name="job" label="岗位">
+      <a-form-item label="岗位" v-bind="validateInfos.job">
         <a-input v-model:value="formValues.job" placeholder="请输入岗位" />
       </a-form-item>
-      <a-form-item name="level" label="级别">
+      <a-form-item label="级别" v-bind="validateInfos.level">
         <a-select
           v-model:value="formValues.level"
           style="width: 100%"

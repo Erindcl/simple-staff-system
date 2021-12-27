@@ -2,7 +2,7 @@
 import { PoweroffOutlined } from '@ant-design/icons-vue'
 import localDb from '../utils/localDb'
 import { useRouter, useRoute } from 'vue-router'
-import { reactive, watch } from 'vue'
+import { onMounted, reactive, watch } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -16,6 +16,12 @@ watch(() => route.path, (newVal) => {
   let currPath = tempArr[tempArr.length - 1] ? tempArr[tempArr.length - 1] : ''
   data.selectedKeys = currPath ? [currPath] : []
 }, { immediate: true })
+
+onMounted(() => {
+  if (!data.userInfo.id) {
+    router.push('/login')
+  }
+})
 
 const loginOut = () => {
   localDb.clear()

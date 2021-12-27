@@ -1,7 +1,11 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import BaseInfoForm from './base_info_form.vue'
+import EducationInfoForm from './education_info_form.vue'
+import OtherInfoForm from './other_info_form.vue'
+import moment from "moment";
 
+const emit = defineEmits(['success'])
 const steps = [
   { title: '基本信息' },
   { title: '教育背景' },
@@ -14,6 +18,8 @@ const data = reactive({
   current: 0,
 })
 const baseInfoFormRef = ref()
+const educationInfoFormRef = ref()
+const otherInfoFormRef = ref()
 
 const init = (record) => {
   data.visible = true
@@ -26,22 +32,34 @@ const init = (record) => {
 }
 const handleNext = () => {
   if (data.current === 0) {
-    console.log(baseInfoFormRef.value.formRef)
-    console.log(baseInfoFormRef.value.formRef.value)
-    baseInfoFormRef.value.formRef.value.validateFields().then(() => {
+    baseInfoFormRef.value.validate().then(() => {
       data.staffInfo = { ...data.staffInfo, ...baseInfoFormRef.value.formValues }
       data.current ++
+      setTimeout(() => {
+        educationInfoFormRef.value.init(data.staffInfo)
+      })
     }).catch(error => {
       console.log('baseInfoForm error', error)
     });
   } else {
     // data.current === 1
-    data.current ++
+    educationInfoFormRef.value.validate().then(() => {
+      data.staffInfo = { ...data.staffInfo, ...educationInfoFormRef.value.formValues }
+      data.current ++
+      setTimeout(() => {
+        otherInfoFormRef.value.init(data.staffInfo)
+      })
+    }).catch(error => {
+      console.log('educationInfoForm error', error)
+    });
   }
 }
 const handlePre = () => {
   if (data.current === 2) {
     data.current --
+    setTimeout(() => {
+      educationInfoFormRef.value.init(data.staffInfo)
+    })
   } else {
     // data.current === 1
     data.current --
@@ -51,7 +69,13 @@ const handlePre = () => {
   }
 }
 const handleOk = () => {
-  data.visible = false
+  otherInfoFormRef.value.validate().then(() => {
+    data.staffInfo = { ...data.staffInfo, ...otherInfoFormRef.value.formValues, graduationTime: data.staffInfo.graduationTime?.format('YYYY-MM-DD') }
+    data.visible = false
+    emit('success', data.staffInfo)
+  }).catch(error => {
+    console.log('educationInfoForm error', error)
+  })
 }
 const handleCancel = () => {
   data.visible = false
@@ -76,6 +100,8 @@ defineExpose({
     </a-steps>
     <div class="form-box">
       <BaseInfoForm v-if="data.current === 0" ref="baseInfoFormRef" />
+      <EducationInfoForm v-if="data.current === 1" ref="educationInfoFormRef" />
+      <OtherInfoForm v-if="data.current === 2" ref="otherInfoFormRef" />
     </div>
   </a-modal>
 </template>
